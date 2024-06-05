@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}线路信息{% endblock %}
+{% block pageLocation %}线路{% endblock %}
+{% block pageName %}线路信息{% endblock %}
+
+{% block content %}
+<div class="flex flex-wrap -mx-3">
+    <div class=" w-full max-w-full flex-none px-3">
+        <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl rounded-2xl bg-clip-border">
+            <!--线路名称与按钮-->
+            <div class="flex flex-row m-2 p-3 border border-black justify-between rounded-2xl">
+                <div class="flex flex-row">
+                    <span class="font-black text-4xl underline">1路</span>
+                    <span class="font-semibold text-2xl underline">上行</span>
+                    <span>火车站</span><span> - </span><span>火车南站</span>
+                </div>
+                <div>
+                    按钮
+                </div>
+            </div>
+            <!--站点信息与车辆位置-->
+            <div class="flex flex-row m-2 p-3 border border-slate-700 justify-between rounded-2xl h-50">
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

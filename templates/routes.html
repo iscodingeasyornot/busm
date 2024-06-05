@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}线路{% endblock %}
+{% block pageLocation %}线路{% endblock %}
+{% block pageName %}线路{% endblock %}
+
+{% block content %}
+<!--Table - 所有线路-->
+<div class="flex flex-wrap -mx-3">
+    <div class="flex-none w-full max-w-full px-3">
+      <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+        <div class="flex justify-between items-center p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+          <h5 class="dark:text-white">所有线路</h5>
+          <a href="{{ url_for('routes.create') }}">
+            <button type="button" class="px-8 py-2 font-bold leading-normal text-center text-slate-700 align-middle transition-all ease-in border border-slate-700 rounded-lg shadow-md cursor-pointer text-xs bg-white lg:block tracking-tight-rem hover:bg-slate-700 hover:text-white hover:border-transparent active:opacity-85">新建线路</button>            
+          </a>
+        </div>
+        <div class="flex-auto px-0 pt-0 pb-2">
+          <div class="p-0 overflow-x-auto">
+            <table class="items-center justify-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500">
+              <thead class="align-bottom">
+                <tr>
+                  <th class="px-1 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none dark:border-white/40 dark:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">线路名称</th>
+                  <th class="px-1 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none dark:border-white/40 dark:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">子名称</th>
+                  <th class="px-1 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none dark:border-white/40 dark:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">展示名称</th>
+                  <th class="px-1 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none dark:border-white/40 dark:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">线路长度</th>
+                  <th class="px-1 py-3  font-bold text-center uppercase align-middle bg-transparent border-b shadow-none dark:border-white/40 dark:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">首末班时间</th>
+                  <th class="px-1 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none dark:border-white/40 dark:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">首末站</th>
+                  <th class="px-1 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none dark:border-white/40 dark:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">经停站点数量</th>
+                  <th class="px-1 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none dark:border-white/40 dark:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">在线车辆/分配车辆</th>
+                  <th class="px-1 py-3 font-bold text-center uppercase align-middle bg-transparent border-b shadow-none dark:border-white/40 dark:text-white text-xs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">状态</th>
+                  <th class="px-1 py-3 font-semibold capitalize align-middle bg-transparent border-b border-solid shadow-none dark:border-white/40 dark:text-white tracking-none whitespace-nowrap"></th>
+                </tr>
+              </thead>
+              <tbody class="border-t">
+                {% for route in routes %}
+                <tr>
+                  <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent mb-0 font-semibold leading-normal dark:text-white dark:opacity-60 text-sm text-center">{{route.name}}</td>
+                  <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent mb-0 font-semibold leading-normal dark:text-white dark:opacity-60 text-sm text-center">{{route.rSubName}}</td>
+                  <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent mb-0 font-semibold leading-normal dark:text-white dark:opacity-60 text-sm text-center">{{route.boardName}}</td>
+                  <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent mb-0 font-semibold leading-normal dark:text-white dark:opacity-60 text-sm text-center">{{route.stops | calc_route_total_distance}}</td>
+                  <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent mb-0 font-semibold leading-normal dark:text-white dark:opacity-60 text-sm text-center">
+                    <p class="mb-0">{{ route.firstBusTime | format_time }}</p>
+                    <p class="mb-0">{{ route.lastBusTime | format_time }}</p>
+                  </td>
+                  <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent mb-0 font-semibold leading-normal dark:text-white dark:opacity-60 text-sm text-center">
+                    <p class="mb-0">{{route.stops | get_stop_name(0)}}</p>
+                    <p class="mb-0">{{route.stops | get_stop_name(-1)}}</p>
+                  </td>
+                  <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent mb-0 font-semibold leading-normal dark:text-white dark:opacity-60 text-sm text-center">{{ route.stops.split(',') | length }}</td> <!-- 使用split()方法将字符串转换为数组，然后使用length属性(jinja2)获取数组的长度 -->
+                  <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent mb-0 font-semibold leading-normal dark:text-white dark:opacity-60 text-sm text-center"><span>开发中</span><span>/</span><span>开发中</span></td>
+                  <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent mb-0 font-semibold leading-normal dark:text-white dark:opacity-60 text-sm text-center">
+                    {% if route.status == 1 %}
+                      <span class="bg-gradient-to-tl from-emerald-500 to-teal-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">已启用</span>
+                    {% elif route.status == 0 %}
+                      <span class="bg-gradient-to-tl from-gray-500 to-gray-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">已停用</span>
+                    {% else %}
+                      <span class="bg-gradient-to-tl from-red-500 to-pink-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">异常</span>
+                    {% endif %}
+                  </td>
+                  </td>
+                  <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                    <a href="{{ url_for('routes.edit', id=route.id) }}" class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">编辑</a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<script>
+  function formatTime(time) {
+    // 将数字转换为字符串
+    let timeStr = String(time);
+    
+    // 在需要的位置添加冒号
+    let formattedTime = timeStr.slice(0, -2) + ':' + timeStr.slice(-2);
+    
+    return formattedTime;
+  }
+</script>
+{% endblock %}

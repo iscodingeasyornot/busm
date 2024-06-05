@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+
+{% block title %}新建线路{% endblock %}
+{% block pageLocation %}线路{% endblock %}
+{% block pageName %}新建线路{% endblock %}
+
+{% block content %}
+<div class="flex flex-wrap -mx-3">
+    <div class="w-full max-w-full flex-none px-3 ">
+      <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl rounded-2xl bg-clip-border">
+        <div class="flex flex-row h-75-screen">
+            <div class="max-w-full px-3 py-3 mb-6 md:mb-0 md:w-1/2 md:flex-none h-4/5">
+                <div class="w-full h-full relative border border-solid shadow-none rounded-xl border-slate-100" id="container_map"></div>                  
+            </div>
+            <div class="max-w-full px-3 py-3 mb-6 md:mb-0 md:w-1/2 md:flex-none h-4/5">
+              <form action="{{ url_for('routes.create') }}" method="post">
+                <!-- 线路信息表 1 -->
+                <div class="border border-solid border-slate-100 rounded-xl shadow-none px-3 py-3">
+                    <div class="flex flex-wrap -mx-3">
+                        <div class="w-full max-w-full px-3 shrink-0 md:w-6/12 md:flex-0">
+                          <div class="mb-4">
+                            <label for="name" class="inline-block mb-2 ml-1 font-bold text-sm text-slate-700 dark:text-white/80">线路名称</label>
+                            <input type="text" name="name" placeholder="必填, 示例: 1路, 123路, 公交专线" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none">
+                          </div>
+                        </div>
+                        <div class="w-full max-w-full px-3 shrink-0 md:w-6/12 md:flex-0">
+                          <div class="mb-4">
+                            <label for="name" class="inline-block mb-2 ml-1 font-bold text-sm text-slate-700 dark:text-white/80">线路编号</label>
+                            <input type="text" name="rId" placeholder="选填, 必须为数字" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none">
+                          </div>
+                        </div>
+                        <div class="w-full max-w-full px-3 shrink-0 md:w-6/12 md:flex-0">
+                          <div class="mb-4">
+                            <label for="subname" class="inline-block mb-2 ml-1 font-bold text-sm text-slate-700 dark:text-white/80">子名称</label>
+                            <input type="text" name="subname" placeholder="必填, 示例: 上行, 下行, A线上行, 环线" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none">
+                          </div>
+                        </div>
+                        <div class="w-full max-w-full px-3 shrink-0 md:w-6/12 md:flex-0">
+                          <div class="mb-4">
+                            <label for="boardname" class="inline-block mb-2 ml-1 font-bold text-sm text-slate-700 dark:text-white/80">展示名称</label>
+                            <input type="text" name="boardname" placeholder="选填,由线路名称和子名称自动生成,可手动修改" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none">
+                          </div>
+                        </div>
+                        <div class="w-full max-w-full px-3 shrink-0 md:w-6/12 md:flex-0">
+                          <div class="mb-4">
+                            <span class="inline-block mb-2 ml-1 font-bold text-sm text-slate-700 dark:text-white/80">首末班时间</span>
+                            <div class="flex items-center">
+                              <input type="text" name="first_hour" placeholder="0-23" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-14 appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none">
+                              <span class="p-1 ">时</span>
+                              <input type="text" name="first_min" placeholder="0-59" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-14 appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none">
+                              <span class="p-1">分</span>
+                              <span class="p-1">-</span>
+                              <input type="text" name="last_hour" placeholder="0-23" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-14 appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none">
+                              <span class="p-1">时</span>
+                              <input type="text" name="last_min" placeholder="0-59" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-14 appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none">
+                              <span class="p-1">分</span>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 线路信息表 2 -->
+                <div class="flex flex-col border border-solid border-slate-100 rounded-xl shadow-none px-3 py-3 mt-3 min-h-75">
+                  <div class="flex flex-row w-full -mx-3 max-h-12 py-2 px-3 items-center justify-between">
+                    <div class="inline-block font-bold text-md text-slate-700 dark:text-white/80">途径站点</div>
+                    <button id="clearSelectedStops" class="px-8 py-2 font-bold leading-normal text-center text-slate-700 align-middle transition-all ease-in border border-slate-700 rounded-lg shadow-md cursor-pointer text-xs bg-white lg:block tracking-tight-rem hover:bg-slate-700 hover:text-white hover:border-transparent active:opacity-85">清空已选车站</button>      
+                  </div>
+                  <div id="stopsContainer" class="flex flex-col mt-2"> 
+                    <div class="flex flex-row justify-between invisible"><div><span>1.</span><span class="font-bold text-2xl ml-1">stop.name</span><span class="ml-1 font-mono text-xl">stop.label</span></div><div><button class="hover:underline text-slate-500">删除</button></div></div> <!--没有删去这行, 而是使用了invisible-->
+                  </div>  
+                  <div id="noStopsHint" class="flex flex-row text-sm text-slate-500">还没有添加站点, 点击左侧地图上的站点图标以添加站点</div>
+                </div>
+            </div>
+          <div>
+        </div>
+        </div>
+        <div class="px-3 py-3 flex justify-end ">
+          <a href="{{ url_for('routes.index') }}">
+            <button type="button" name="cancel" class="px-8 py-2 font-bold leading-normal text-center text-slate-700 align-middle transition-all ease-in border border-slate-700 rounded-lg shadow-md cursor-pointer text-xs bg-white lg:hidden tracking-tight-rem hover:bg-slate-700 hover:text-white hover:border-transparent active:opacity-85">取消</button>
+          </a>
+          <button type="submit" name="save" class="px-8 py-2 font-bold leading-normal text-center text-slate-700 align-middle transition-all ease-in border border-slate-700 rounded-lg shadow-md cursor-pointer text-xs bg-white lg:block tracking-tight-rem hover:bg-slate-700 hover:text-white hover:border-transparent active:opacity-85">保存</button>      
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+<!-- 地图的 JavaScript 代码 -->
+<script type="text/javascript">
+  window._AMapSecurityConfig = {
+    securityJsCode: "{{ amap_js_key.scode }}", // flask 导入,下同
+  };
+</script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key={{ amap_js_key.key }}&plugin=AMap.Driving"></script>
+<script type="text/javascript">
+  // 创建地图实例
+  var map = new AMap.Map("container_map", {
+    zoom: 13,
+    center: [112.92502982, 27.85804057],
+    resizeEnable: true
+  });
+</script>
+<script>
+  // 两点 - 路线规划
+  var driving = new AMap.Driving({
+    map: map
+  });
+
+  function updateRoutes() {
+    // 清除之前的路线
+    driving.clear();
+
+    // 如果选中的站点少于2个，无法规划路线
+    if (selectedStops.length < 2) {
+      return;
+    }
+
+    // 获取起点和终点
+    var start = selectedStops[0].stop;
+    var end = selectedStops[selectedStops.length - 1].stop;
+
+    // 获取途径点
+    var waypoints = [];
+    for (var i = 1; i < selectedStops.length - 1; i++) {
+      var waypoint = selectedStops[i].stop;
+      waypoints.push(new AMap.LngLat(waypoint.longitude, waypoint.latitude));
+    }
+
+    // 使用驾车路线规划服务获取路线
+    driving.search(new AMap.LngLat(start.longitude, start.latitude), new AMap.LngLat(end.longitude, end.latitude), {
+      waypoints: waypoints
+    });
+  }
+</script>
+<script type="text/javascript">
+  var stops = {{ stops|tojson|safe }};
+  var selectedStops = [];
+
+  function updateSelectedStops() {
+    var stopsContainer = document.getElementById('stopsContainer');
+    var noStopsHint = document.getElementById('noStopsHint');
+    stopsContainer.innerHTML = '';
+    if (selectedStops.length === 0) {
+      // 如果站点列表为空，显示提示
+      noStopsHint.style.display = 'block';
+    } else {
+      // 否则，显示站点列表并隐藏提示
+      noStopsHint.style.display = 'none';
+      selectedStops.forEach(function(item, index) {
+        var stop = item.stop;
+        var marker = item.marker;
+        var stopElement = document.createElement('div');
+        stopElement.innerHTML = '<div class="flex flex-row justify-between"><div><span>' + (index + 1) + '.</span><span class="font-bold text-2xl ml-1">' + stop.name + '</span><span class="ml-1 font-mono text-xl">' + stop.label + '</span></div><div><button class="hover:underline text-slate-500">删除</button></div></div>';
+        stopsContainer.appendChild(stopElement);
+  
+        // 为"删除"按钮添加点击事件处理器
+        stopElement.querySelector('button').addEventListener('click', function() {
+          selectedStops.splice(index, 1); // 从数组中删除站点
+          updateSelectedStops(); // 更新站点列表
+        });
+      });
+    }
+  
+    // 遍历所有站点，设置图标颜色
+    stops.forEach(function(stop) {
+      var marker = stop.marker;
+      if (selectedStops.find(function(item) { return item.stop === stop; })) {
+        // 如果站点在selectedStops数组中，设置图标颜色为红色
+        marker.setIcon(redIcon);
+      } else {
+        // 否则，设置图标颜色为蓝色
+        marker.setIcon(blueIcon);
+      }
+    });
+
+    console.log(selectedStops); //debug
+
+    updateRoutes(); // 更新路线
+  }
+
+  // 在页面加载时调用一次updateSelectedStops函数，以确保初始状态正确
+  window.onload = updateSelectedStops;
+
+  var blueIcon = new AMap.Icon({
+    image: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><circle cx="20" cy="20" r="15" fill="#3282F6" /></svg>'),
+    size: new AMap.Size(15, 15),
+    imageSize: new AMap.Size(15, 15)
+  });
+  var redIcon = new AMap.Icon({
+    image: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><circle cx="20" cy="20" r="15" fill="tomato" /></svg>'),
+    size: new AMap.Size(20, 20),
+    imageSize: new AMap.Size(20, 20)
+  });
+
+  stops.forEach(function(stop) {
+    var marker = new AMap.Marker({
+      position: [stop.longitude, stop.latitude],
+      icon: blueIcon,
+      map: map
+    });
+
+    // 将marker对象添加到stop对象中
+    stop.marker = marker;
+  
+    marker.on('click', function() {
+      selectedStops.push({stop: stop, marker: marker}); // 将被点击的站点和其标记添加到数组中
+      updateSelectedStops(); // 更新"途径站点"的HTML内容
+    });
+  });
+
+  // 清空已选车站 按钮
+  document.getElementById('clearSelectedStops').addEventListener('click', function() {
+    event.preventDefault();
+    selectedStops = [];
+    updateSelectedStops();
+  });
+
+  // 保存 按钮
+  document.querySelector('button[name="save"]').addEventListener('click', function(event) {
+    event.preventDefault();
+    var stopIds = selectedStops.map(function(item) {
+      return item.stop.id;
+    });
+    var stopIdsString = stopIds.join(',');
+    
+    // 创建一个新的隐藏字段，将站点 ID 字符串设置为其值
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'stopIdsString';
+    input.value = stopIdsString;
+    
+    // 将新的隐藏字段添加到表单中
+    var form = document.querySelector('form');
+    form.appendChild(input);
+    
+    // 提交表单
+    form.submit();
+  });
+</script>
+{% endblock %}

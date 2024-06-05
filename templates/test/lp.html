@@ -1,0 +1,65 @@
+<!--测试坐标准确性-->
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+  <title>HELLO，AMAP!</title>
+  <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+  <style>
+    html,
+    body,
+    #container {
+      height: 100%;
+      width: 100%;
+    }
+
+    .amap-icon img,
+    .amap-marker-content img {
+      width: 25px;
+      height: 34px;
+    }
+
+    .cus_info_window {
+      background-color: #fff;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container"></div>
+  <script type="text/javascript">
+    window._AMapSecurityConfig = {
+      securityJsCode: "{{ amap_js_key.scode }}", // flask 导入,下同
+    };
+  </script>
+  <script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key={{ amap_js_key.key }}&plugin=AMap.Driving"></script>
+  <script type="text/javascript">
+    // 创建地图实例
+    var map = new AMap.Map("container", {
+      zoom: 13,
+      center: [112.92502982, 27.85804057],
+      resizeEnable: true
+    });
+
+    const lineArr = [
+      //[112.92502982, 27.85804057]
+        {% for l in ls %}
+        
+        [{{ l.longitude }}, {{ l.latitude }}],
+        {% endfor %}
+    ];
+    var polyline = new AMap.Polyline({
+      path: lineArr,          // 设置线覆盖物路径
+      strokeColor: "#3366FF", // 线颜色
+      strokeWeight: 5,        // 线宽
+      strokeStyle: "solid",   // 线样式
+    });
+    map.add(polyline);
+  </script>
+</body>
+
+</html>

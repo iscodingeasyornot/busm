@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>登录</title>
+        <link rel="icon" type="image/png" href="../static/img/favicon.png" />
+        <!-- Main Styling -->
+        {% assets 'css_main' %}
+        <link href="{{ ASSET_URL }}" rel="stylesheet" /> 
+        {% endassets %}   
+    </head>
+    <body>
+        <div class="min-h-screen flex items-center justify-center">
+            <div class="bg-white p-8 rounded  max-w-md w-full mx-auto">
+                <h2 class="text-3xl  mb-4 font-normal">登录</h2>
+        
+                <form action="#" method="POST">
+                    <div class="mt-4">
+                        <input type="email" id="email" name="email" class="mt-1 p-2 w-full border rounded-md" placeholder="用户名">
+                    </div>
+        
+                    <div class="mt-4">
+                        <input type="password" id="password" name="password" class="mt-1 p-2 w-full border rounded-md" placeholder="密码">
+                    </div>
+        
+                    <div class="mt-6">
+                        <button type="submit" class="w-full p-3 bg-violet-500 text-white rounded-md hover:bg-violet-600">登录</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
